@@ -1,4 +1,4 @@
-import React from "react"
+import { useRef } from "react"
 
 import { InputDate } from "../components/input-date"
 
@@ -10,20 +10,10 @@ interface DateFieldProps {
 }
 
 export function DateField({ selectedDate, setSelectedDate }: DateFieldProps) {
-  const inputRef = React.useRef<HTMLInputElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   function openDatePicker() {
-    const el = inputRef.current
-    if (!el) return
-
-    const maybePicker = (el as HTMLInputElement & { showPicker?: () => void }).showPicker
-
-    if (typeof maybePicker === 'function') {
-      maybePicker.call(el)
-      return
-    }
-
-    el.focus()
+    void (inputRef.current?.showPicker?.() ?? inputRef.current?.focus())
   }
 
   return (
